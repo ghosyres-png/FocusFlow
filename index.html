@@ -3223,7 +3223,7 @@ document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('ch
 })();
 /* ---------- bounce + slide: sheets you can drag down, a springy tick, buttons that squish ---------- */
 (()=>{const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const SPRING='cubic-bezier(.22,1.35,.4,1)',hasScale=CSS.supports&&CSS.supports('scale','1');
+  const SPRING='cubic-bezier(.22,1.35,.4,1)';
   /* 1. drag a sheet down to close it; it springs back if you don't pull far enough */
   let drag=null;
   document.addEventListener('touchstart',e=>{const m=e.target.closest&&e.target.closest('.modalback.open > .modal');if(!m||e.touches.length>1)return;
@@ -3254,14 +3254,22 @@ document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('ch
         Object.assign(ghost.style,{position:'fixed',left:r0.left+'px',top:r0.top+'px',width:r0.width+'px',height:r0.height+'px',margin:0,zIndex:50,pointerEvents:'none',boxSizing:'border-box'});
         ghost.classList.add('done');const gc=ghost.querySelector('.check');if(gc)gc.textContent='✓';document.body.appendChild(ghost);
         ghost.animate([{transform:'none',opacity:1},{transform:'scale(1.03)',opacity:1,offset:.25},{transform:`translateX(${r0.width*0.6}px)`,opacity:0}],{duration:480,easing:'cubic-bezier(.5,0,.75,0)'}).onfinish=()=>ghost.remove()}})},true);
-  /* 4. buttons squish when pressed and spring back on release */
-  const SQ='button:not(.check):not(.spine):not(.hap),.navitem,.chip,[data-goto],.recapcard,.capbar';let pressed=null,px=0,py=0;
-  const sc=v=>hasScale?{scale:String(v)}:{transform:`scale(${v})`};
+  /* 4. buttons squish when pressed and spring back on release.
+     Uses plain transform keyframes (built on the element's own transform) so older iOS plays them too,
+     and if a tap re-draws the button, the bounce plays on the new one */
+  const SQ='button:not(.check):not(.spine):not(.hap),.navitem,.chip,[data-goto],.recapcard,.capbar';let pressed=null,px=0,py=0,pressT=0;
+  const base=el=>{const t=getComputedStyle(el).transform;return t&&t!=='none'?t+' ':''};
+  const sig=el=>{if(el.id)return '#'+CSS.escape(el.id);for(const a of el.attributes)if(a.name.startsWith('data-'))return `${el.tagName}[${a.name}="${CSS.escape(a.value)}"]`;return null};
+  function bounce(el,s){el.__a&&el.__a.cancel();const b=base(el);el.__a=el.animate([{transform:`${b}scale(${s})`},{transform:`${b}scale(1.06)`,offset:.45},{transform:`${b}scale(.98)`,offset:.75},{transform:`${b}scale(1)`}],{duration:440,easing:'ease-out'})}
   document.addEventListener('pointerdown',e=>{if(RM()||e.button>0)return;const el=e.target.closest&&e.target.closest(SQ);if(!el||el.disabled||el.closest('.task'))return;
-    pressed=el;px=e.clientX;py=e.clientY;const s=el.offsetWidth>240?.98:.94;el.__sq=s;el.__a&&el.__a.cancel();el.__a=el.animate([sc(1),sc(s)],{duration:110,easing:'ease-out',fill:'forwards'})},{passive:true});
-  function release(){const el=pressed;pressed=null;if(!el)return;const s=el.__sq||.94;el.__a&&el.__a.cancel();el.__a=el.animate([sc(s),sc(1.04),sc(.99),sc(1)],{duration:420,easing:'ease-out'})}
-  document.addEventListener('pointermove',e=>{if(pressed&&Math.hypot(e.clientX-px,e.clientY-py)>10)release()},{passive:true});
-  document.addEventListener('pointerup',release,{passive:true});document.addEventListener('pointercancel',release,{passive:true});
+    pressed=el;px=e.clientX;py=e.clientY;pressT=performance.now();const s=el.offsetWidth>240?.96:.9;el.__sq=s;el.__b=base(el);el.__a&&el.__a.cancel();
+    el.__a=el.animate([{transform:`${el.__b}scale(1)`},{transform:`${el.__b}scale(${s})`}],{duration:70,easing:'ease-out',fill:'forwards'})},{passive:true});
+  function release(cancelled){const el=pressed;pressed=null;if(!el)return;const s=el.__sq||.9,key=sig(el);bounce(el,s);if(cancelled||!key)return;
+    let done=false;const check=()=>{if(done||el.isConnected)return;const n=document.querySelector(key);if(n&&n.offsetParent!==null){done=true;bounce(n,s)}};
+    requestAnimationFrame(check);setTimeout(check,40);setTimeout(check,120)}
+  document.addEventListener('pointermove',e=>{if(pressed&&Math.hypot(e.clientX-px,e.clientY-py)>10)release(true)},{passive:true});
+  document.addEventListener('pointerup',()=>release(false),{passive:true});document.addEventListener('pointercancel',()=>release(true),{passive:true});
+  window.floBounce={bounce};
 })();
 
 /* ---------- soft button sounds, made on the device; off switch in Appearance ---------- */
