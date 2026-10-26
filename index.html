@@ -1639,7 +1639,8 @@ const I18N=[["(optional)", "(ไม่บังคับ)"], ["+ Add a practice 
   PAT.sort((a,b)=>b.lit-a.lit);
   function conv(x,t){if(x==null)return'';if(EX.has(x))return EX.get(x);if(t==='q')return x;if(t==='s'&&/[A-Za-z]/.test(x)&&x.length<200){const r=one(x);if(r!=null)return r}
     return x.replace(/\b(\d+)h(?: (\d+)m)?\b/g,(_,h,m)=>h+' ชม.'+(m?' '+m+' น.':'')).replace(/\b(\d+)m\b/g,'$1 นาที').replace(/\b(\d+(?:\.\d)?) h\b/g,'$1 ชม.').replace(/\b(\d+) min\b/g,'$1 นาที').replace(/\b(\d+(?:\.\d)?) H\b/g,'$1 ชม.').replace(/\b(\d+) MIN\b/g,'$1 นาที').replace(/\b(\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)\b/g,(_,d,m)=>d+' '+MON[m])}
-  function one(c){if(EX.has(c))return EX.get(c);for(const p of PAT){const m=c.match(p.re);if(m)return p.v.replace(/\$(\d)/g,(_,i)=>conv(m[i],p.types[i-1]))}
+  const OC=new Map();function one(c){if(OC.has(c))return OC.get(c);const r=one0(c);if(OC.size<4000)OC.set(c,r);return r}
+  function one0(c){if(EX.has(c))return EX.get(c);for(const p of PAT){const m=c.match(p.re);if(m)return p.v.replace(/\$(\d)/g,(_,i)=>conv(m[i],p.types[i-1]))}
     const dm=c.match(/^(\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)$/);if(dm)return dm[1]+' '+MON[dm[2]];return null}
   const cache=new Map();
   function core(c){if(cache.has(c))return cache.get(c);let r=EX.has(c)?EX.get(c):null;
@@ -1653,6 +1654,10 @@ const I18N=[["(optional)", "(ไม่บังคับ)"], ["+ Add a practice 
   const start=()=>{walk(document.body);mo.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title']})};
   if(document.body)start();else addEventListener('DOMContentLoaded',start);
 })();
+/* ---------- speed: reuse date formatters instead of building a new one for every date ---------- */
+(()=>{const F=new Map(),TL=Date.prototype.toLocaleDateString,TIME=/hour|minute|second|timeStyle/;
+  Date.prototype.toLocaleDateString=function(l,o){if(o&&TIME.test(Object.keys(o).join()))return TL.call(this,l,o);if(isNaN(this))return 'Invalid Date';
+    const k=(Array.isArray(l)?l.join():l||'')+'|'+(o?JSON.stringify(o):'');let f=F.get(k);if(!f){try{f=new Intl.DateTimeFormat(l,o)}catch{return TL.call(this,l,o)}F.set(k,f)}return f.format(this)}})();
 /* ---------- helpers & storage ---------- */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const pad=n=>String(n).padStart(2,'0');
@@ -1766,6 +1771,12 @@ function renderPlanCards(){
    :`<div class="eyebrow">Today's plan<span class="mono" style="color:var(--c45e5c0)">Complete</span></div><h3>You finished your plan.</h3><p>Everything you planned for today is done. Anything else is a bonus.</p><div class="rowbtns"><button class="secondary" data-plan>Plan more</button></div>`;
   $('#plannerPlan').innerHTML=`<p>${{high:'High',medium:'Medium',low:'Low'}[p.energy]} energy · ${fmtDur(p.used)} planned of ${fmtDur(p.budget)}</p>`+timelineHTML(p)+`<div class="rowbtns"><button class="secondary" data-plan>Replan</button><button class="secondary" id="clearPlan">Clear plan</button></div>`;
 }
+const lazyDirty=new Set();let lazyForce=null,warmT=0;
+/* is this page on screen (or being drawn ahead of time)? if not, remember to draw it later */
+function shown(v){if(v===lazyForce||document.getElementById(v)?.classList.contains('active'))return true;if(!lazyForce){lazyDirty.add(v);clearTimeout(warmT);warmT=setTimeout(warm,600)}return false}
+/* draw hidden pages a moment after things go quiet, one page at a time, so opening them is instant */
+let lastTouch=0;['pointerdown','touchmove','scroll','wheel','keydown'].forEach(e=>addEventListener(e,()=>{lastTouch=performance.now()},{passive:true,capture:true}));
+function warm(){const v=[...lazyDirty][0];if(!v)return;if(document.hidden||running||performance.now()-lastTouch<900){warmT=setTimeout(warm,700);return}lazyDirty.delete(v);lazyForce=v;try{render()}finally{lazyForce=null}if(lazyDirty.size)warmT=setTimeout(warm,80)}
 function render(){
   save();
   const tt=tasks.filter(isToday),done=tt.filter(t=>t.done).length,total=tt.length,pct=total?Math.round(done/total*100):0;
@@ -1773,29 +1784,30 @@ function render(){
   $('#progressCaption').textContent=pct===100&&total?'You showed up for yourself today.':pct?'Keep the momentum going.':'A little progress is still progress.';
   $('#openCount').textContent=tt.filter(t=>!t.done).length;$('#highCount').textContent=tt.filter(t=>!t.done&&t.priority==='high').length;$('#activeDays').textContent=activeDays7();
   $('#homeTasks').innerHTML=visibleTasks().map(renderTask).join('')||'<div class="empty">Nothing here yet. Add a task to get started</div>';
-  $('#plannerTasks').innerHTML=(sortHigh?[...tasks].sort((x,y)=>PRI[x.priority]-PRI[y.priority]):[...tasks].sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'))).map(renderTask).join('')||'<div class="empty">Your plan is clear. Add your first task.</div>';
+  const V=shown;
+  if(V('planner'))$('#plannerTasks').innerHTML=(sortHigh?[...tasks].sort((x,y)=>PRI[x.priority]-PRI[y.priority]):[...tasks].sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'))).map(renderTask).join('')||'<div class="empty">Your plan is clear. Add your first task.</div>';
   $('#aiNudge').textContent=nudge();renderPlanCards();
   const ws=new Date();ws.setDate(ws.getDate()-((ws.getDay()+6)%7));
-  $('#weekstrip').innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(ws);d.setDate(ws.getDate()+i);const k=dkey(d);return `<div class="day${k===today()?' today':''}"><small>${d.toLocaleDateString('en-US',{weekday:'short'})}</small><b>${d.getDate()}</b><i class="${tasks.some(t=>t.date===k)?'on':''}"></i></div>`}).join('');
+  if(V('planner'))$('#weekstrip').innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(ws);d.setDate(ws.getDate()+i);const k=dkey(d);return `<div class="day${k===today()?' today':''}"><small>${d.toLocaleDateString('en-US',{weekday:'short'})}</small><b>${d.getDate()}</b><i class="${tasks.some(t=>t.date===k)?'on':''}"></i></div>`}).join('');
   /* insights */
-  const all=tasks.filter(t=>t.done).length;$('#statDone').textContent=all;$('#statRate').textContent=(tasks.length?Math.round(all/tasks.length*100):0)+'%';$('#statFocus').textContent=focusTotal();$('#statAdded').textContent=tasks.length;
+  if(V('insights')){const all=tasks.filter(t=>t.done).length;$('#statDone').textContent=all;$('#statRate').textContent=(tasks.length?Math.round(all/tasks.length*100):0)+'%';$('#statFocus').textContent=focusTotal();$('#statAdded').textContent=tasks.length;
   const wd=weekDays(),counts=wd.map(k=>doneOn(k).length),mx=Math.max(1,...counts);
   $('#weekbars').innerHTML=wd.map((k,i)=>`<div><em>${counts[i]||''}</em><i class="${counts[i]?'':'zero'}" style="height:${counts[i]?Math.max(8,counts[i]/mx*70):3}%"></i><span>${new Date(k+'T12:00:00').toLocaleDateString(LOCU(),{weekday:'narrow'})}</span></div>`).join('');
   $('#insightList').innerHTML=insightsList().map(s=>`<li>${esc(s)}</li>`).join('');
-  $('#catRows').innerHTML=['work','personal','health'].map(c=>{const a=tasks.filter(t=>t.category===c),d=a.filter(t=>t.done).length,r=a.length?Math.round(d/a.length*100):0;return `<div class="catrow"><span>${catName(c)}</span><div class="progress"><i style="width:${r}%"></i></div><span>${d}/${a.length}</span></div>`}).join('');
+  $('#catRows').innerHTML=['work','personal','health'].map(c=>{const a=tasks.filter(t=>t.category===c),d=a.filter(t=>t.done).length,r=a.length?Math.round(d/a.length*100):0;return `<div class="catrow"><span>${catName(c)}</span><div class="progress"><i style="width:${r}%"></i></div><span>${d}/${a.length}</span></div>`}).join('');}
   /* growth */
-  renderGoals();
-  $('#achv').innerHTML=milestones().map(([ic,n,c,v,max])=>`<div class="ach${v>=max?' on':''}"><div class="ic">${ic}</div><b>${n}</b><span>${c}</span><em>${v>=max?'Unlocked':v+' / '+max}</em></div>`).join('');
+  if(V('growth')){renderGoals();
+  $('#achv').innerHTML=milestones().map(([ic,n,c,v,max])=>`<div class="ach${v>=max?' on':''}"><div class="ic">${ic}</div><b>${n}</b><span>${c}</span><em>${v>=max?'Unlocked':v+' / '+max}</em></div>`).join('');}
   const now=new Date();$('#dateLine').textContent=now.toLocaleDateString(LOCU(),{weekday:'long',month:'long',day:'numeric'});{const t0=today(),open=tasks.filter(t=>!t.done&&t.date&&t.date<=t0).length,fm=focusLog.filter(e=>e.d===t0).reduce((a,e)=>a+(e.m||0),0);$('#greetLine').textContent=(open?`${plural(open,'task')} left today`:'Nothing left today')+` · ${fm} min focused`}
   $('#plannerDate').textContent='Plan for '+now.toLocaleDateString(LOCU(),{weekday:'long',month:'short',day:'numeric'});
   $$('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===filter));
-  fillFocusTasks();renderInbox();renderFriction();renderJournal();renderTwin();renderNext();renderNow();renderVault();renderSeason();applyPersona();adaptHome();window.P9&&renderSky();if(window.P10){checkSkillLevels();renderSkills()}if($('#growth').classList.contains('active')&&gTab==='map')renderGraph();
+  fillFocusTasks();renderInbox();renderFriction();renderJournal();renderTwin();renderNext();renderNow();if(V('profile'))renderVault();renderSeason();applyPersona();adaptHome();if(window.P9&&V('focus'))renderSky();if(window.P10){checkSkillLevels();if(V('growth'))renderSkills()}if($('#growth').classList.contains('active')&&gTab==='map')renderGraph();
   if(window.floSync)floSync();
 }
 function greeting(){const h=new Date().getHours();if(LANG==='th')return h<5?'ยังไม่นอนอีกเหรอ':h<12?'อรุณสวัสดิ์':h<17?'สวัสดีตอนบ่าย':h<22?'สวัสดีตอนเย็น':'ดึกแล้ว';return h<5?'Still up':h<12?'Good morning':h<17?'Good afternoon':h<22?'Good evening':'Late night'}
 
 /* ---------- navigation & task modal ---------- */
-function goto(view){$$('.view').forEach(v=>v.classList.toggle('active',v.id===view));$$('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));$('#addTask').style.display=['home','planner','growth'].includes(view)?'block':'none';window.scrollTo({top:0,behavior:'smooth'})}
+function goto(view){const wasOn=document.getElementById(view)?.classList.contains('active');$$('.view').forEach(v=>v.classList.toggle('active',v.id===view));$$('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));$('#addTask').style.display=['home','planner','growth'].includes(view)?'block':'none';if(!wasOn&&lazyDirty.has(view)){lazyDirty.delete(view);render()}window.scrollTo({top:0,behavior:'smooth'})}
 function goalOptions(sel){return '<option value="">No goal</option>'+goals.map(g=>`<option value="${g.id}"${g.id===sel?' selected':''}>${esc(g.name)}</option>`).join('')}
 function openModal(t=null){editing=t?.id??null;$('#modalTitle').textContent=t?'Edit task':'Create a task';$('#taskTitle').value=t?.title||'';$('#taskCategory').value=t?.category||'personal';$('#taskPriority').value=t?.priority||'normal';$('#taskDate').value=t?t.date||'':today();$('#taskEst').value=String(t?.est||25);if(!$('#taskEst').value)$('#taskEst').value='25';$('#taskGoal').innerHTML=goalOptions(t?.goalId);if(window.P10)$('#taskSkill').innerHTML=skillOptions(t?.skillId);$('#taskDep').innerHTML=depOptions(t);const del=$('#deleteTask');del.hidden=!t;del.textContent='Delete task';del.dataset.armed='';$('#modal').classList.add('open');setTimeout(()=>$('#taskTitle').focus(),100)}
 $$('.navitem').forEach(b=>b.addEventListener('click',()=>goto(b.dataset.view)));
@@ -2619,9 +2631,16 @@ setTimeout(()=>{bots.forEach(b=>b.classList.remove('sleep'));if(gap>=3)talk(hi);
 /* clock + refresh "next up" every minute */
 let lastMin=-1;setInterval(()=>{const d=new Date();$('#teleClock').textContent=d.toTimeString().slice(0,8);if(d.getMinutes()!==lastMin){if(lastMin!==-1)renderPlanCards();lastMin=d.getMinutes()}},1000);$('#teleClock').textContent=new Date().toTimeString().slice(0,8);
 /* look-at + gentle idle wander, only while a mascot is on screen */
-const st=new Map(bots.map(b=>[b,{x:0,y:0}])),vis=new Set();let px=null,py=null,lastMove=0,raf=0;
-const mv=e=>{px=e.clientX;py=e.clientY;lastMove=performance.now()};addEventListener('pointermove',mv,{passive:true});addEventListener('pointerdown',mv,{passive:true});
-function frame(t){raf=0;if(reduce.matches||document.hidden||!vis.size)return;vis.forEach(b=>{const s=st.get(b),r=b.getBoundingClientRect();let tx,ty;const calm=b.dataset.mood==='focus';if(px!==null&&t-lastMove<2500&&!calm){tx=Math.max(-1,Math.min(1,(px-(r.left+r.width/2))/260));ty=Math.max(-1,Math.min(1,(py-(r.top+r.height*.35))/260))}else{tx=Math.sin(t/1900)*(calm?.15:.45);ty=Math.sin(t/2700)*(calm?.1:.25)}s.x+=(tx-s.x)*.07;s.y+=(ty-s.y)*.07;b.style.setProperty('--ry',(s.x*16).toFixed(2)+'deg');b.style.setProperty('--rx',(-s.y*11).toFixed(2)+'deg');b.style.setProperty('--lx',(s.x*.6).toFixed(3)+'em');b.style.setProperty('--ly',(s.y*.4).toFixed(3)+'em')});raf=requestAnimationFrame(frame)}
+const st=new Map(bots.map(b=>[b,{x:0,y:0}])),vis=new Set();let px=null,py=null,lastMove=0,raf=0,rectAt=0;
+const mv=e=>{px=e.clientX;py=e.clientY;lastMove=performance.now();kick()};addEventListener('pointermove',mv,{passive:true});addEventListener('pointerdown',mv,{passive:true});
+function frame(t){raf=0;if(reduce.matches||document.hidden||!vis.size)return;let busy=false;const live=px!==null&&t-lastMove<2500,fresh=t-rectAt>250;if(fresh)rectAt=t;
+  vis.forEach(b=>{const s=st.get(b);if(fresh||!s.r)s.r=b.getBoundingClientRect();const r=s.r;let tx=0,ty=0;const calm=b.dataset.mood==='focus';
+    if(live&&!calm){tx=Math.max(-1,Math.min(1,(px-(r.left+r.width/2))/260));ty=Math.max(-1,Math.min(1,(py-(r.top+r.height*.35))/260))}
+    s.x+=(tx-s.x)*.07;s.y+=(ty-s.y)*.07;if(Math.abs(tx-s.x)>.004||Math.abs(ty-s.y)>.004)busy=true;else{s.x=tx;s.y=ty}
+    const k=(s.x*16).toFixed(1)+'|'+(s.y*11).toFixed(1);if(s.k===k)return;s.k=k;/* only touch styles when the head actually moved */
+    b.style.setProperty('--ry',(s.x*16).toFixed(2)+'deg');b.style.setProperty('--rx',(-s.y*11).toFixed(2)+'deg');b.style.setProperty('--lx',(s.x*.6).toFixed(3)+'em');b.style.setProperty('--ly',(s.y*.4).toFixed(3)+'em')});
+  /* the loop sleeps once Flo has settled; a touch wakes it again */
+  if(busy||live)raf=requestAnimationFrame(frame)}
 const kick=()=>{if(!raf)raf=requestAnimationFrame(frame)};
 if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?vis.add(e.target):vis.delete(e.target));kick()});bots.forEach(b=>io.observe(b))}else{bots.forEach(b=>vis.add(b));kick()}
 document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('change',kick);
@@ -2704,7 +2723,7 @@ document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('ch
     const sc=box.querySelector('.yc-scroll');sc.scrollLeft=sc.scrollWidth}
   function dayLine(k,mins,done){const ds=new Date(k+'T12:00:00').toLocaleDateString(LOCU(),{weekday:'short',day:'numeric',month:'short'});return `${ds} · ${mins[k]||0} min focus · ${plural(done[k]||0,'task')} done`}
   box.addEventListener('click',e=>{const c=e.target.closest('[data-yday]');if(!c)return;pick=pick===c.dataset.yday?null:c.dataset.yday;const sl=box.querySelector('.yc-scroll').scrollLeft;renderYear();box.querySelector('.yc-scroll').scrollLeft=sl});
-  const _render=render;render=function(){const r=_render.apply(this,arguments);renderYear();return r};
+  const _render=render;render=function(){const r=_render.apply(this,arguments);if(shown('insights'))renderYear();return r};
   renderYear();
   if('IntersectionObserver'in window)new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!pick){const sc=box.querySelector('.yc-scroll');if(sc)sc.scrollLeft=sc.scrollWidth}})).observe(box);
 })();
@@ -2725,7 +2744,7 @@ document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('ch
     dayHead.hidden=false;dayHead.innerHTML=`<h2>${d.toLocaleDateString(LOCU(),{weekday:'long',day:'numeric',month:'short'})}</h2><button type="button" class="textbtn" id="wkAll">Show all tasks</button><p class="tl-sum" style="width:100%;margin:2px 0 0">${list.length?`${n} of ${list.length} done`:'No tasks on this day'}</p>`;
     $('#plannerTasks').innerHTML=list.map(renderTask).join('')||'<div class="empty">Nothing was planned or finished on this day.</div>';}
   function showAllHead(){const sh=dayHead.previousElementSibling;if(sh&&sh.classList.contains('sectionhead'))sh.hidden=!!sel}
-  const _r=render;render=function(){_r.apply(this,arguments);paint();showAllHead()};
+  const _r=render;render=function(){_r.apply(this,arguments);if(shown('planner')){paint();showAllHead()}};
   strip.addEventListener('click',e=>{const b=e.target.closest('[data-wday]');if(!b)return;sel=sel===b.dataset.wday?null:b.dataset.wday;render();if(sel)dayHead.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})});
   document.addEventListener('click',e=>{if(e.target.closest('#wkPrev')){wk--;render()}else if(e.target.closest('#wkNext')){wk++;render()}else if(e.target.closest('#wkAll')){sel=null;render()}});
   paint();showAllHead()})();
@@ -3053,7 +3072,7 @@ document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('ch
       <div class="panel"><h3>My shelf</h3><p>${done.length?`${plural(done.length,'book')} finished. Tap a spine for details.`:'Books you finish land here.'}</p>${done.length?`<div class="shelf">${spines}</div><div class="shelfboard"></div>`:''}
       ${sb?`<div class="shelfinfo"><b>${esc(sb.title)}</b>${sb.author?` · ${esc(sb.author)}`:''}<br><span>${sb.pages} pages · finished ${fmtD(dkey(new Date(sb.finishedAt)))}${sb.start?` · ${Math.max(1,daysBetween(sb.start,dkey(new Date(sb.finishedAt)))+1)} days`:''}</span><div class="rowbtns"><button type="button" class="secondary" data-bquote="${sb.id}">Quotes${(sb.quotes||[]).length?` · ${sb.quotes.length}`:''}</button><button type="button" class="textbtn" data-breopen="${sb.id}">Move back to reading</button></div></div>`:''}</div>`+quotePanel()+statsPanel()}
   /* hook into the app */
-  const _r=render;render=function(){_r.apply(this,arguments);if(gTab==='books')renderBooks();paintChip();paintQuoteCard()};
+  const _r=render;render=function(){_r.apply(this,arguments);if(gTab==='books'&&shown('growth'))renderBooks();paintChip();paintQuoteCard()};
   const _sg=showGTab;showGTab=function(){_sg.apply(this,arguments);if(gTab==='books')renderBooks()};
   /* reading chip on the focus page */
   const lbl=$('#timerLabel');lbl&&lbl.insertAdjacentHTML('afterend','<div class="readchip" id="readChip" hidden><span></span><button type="button" aria-label="Stop reading mode">×</button></div>');
