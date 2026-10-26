@@ -3315,6 +3315,12 @@ document.addEventListener('visibilitychange',kick);reduce.addEventListener?.('ch
   document.addEventListener('pointerup',()=>release(false),{passive:true});document.addEventListener('pointercancel',()=>release(true),{passive:true});
   window.floBounce={bounce};
 })();
+/* ---------- room at the bottom: pages end above the real menu height (it grows by the home-bar area on iPhone) ---------- */
+(()=>{const nav=document.querySelector('.bottomnav');if(!nav)return;const root=document.documentElement;
+  const st=document.createElement('style');st.textContent='.app{padding-bottom:calc(var(--navh,96px) + 88px)!important}';document.head.appendChild(st);
+  const set=()=>{const r=nav.getBoundingClientRect(),h=Math.max(r.height,innerHeight-r.top);if(h>0)root.style.setProperty('--navh',Math.round(h)+'px')};
+  set();addEventListener('resize',set);addEventListener('orientationchange',()=>setTimeout(set,300));if('ResizeObserver'in window)new ResizeObserver(set).observe(nav);
+})();
 /* ---------- your own categories: add, rename, recolour, delete (tasks never move without you saying so) ---------- */
 (()=>{if(!Array.isArray(prefs.cats)||!prefs.cats.length){prefs.cats=['work','personal','health','reading','job','learn','money'].map(id=>({id}));savePrefs()}
   const HUES=[null,0,25,45,100,145,175,205,230,255,285,320];
