@@ -1952,104 +1952,7 @@ body.flo-quiet .hud-say{display:none!important}
 @media (prefers-reduced-motion:reduce){:root .bot.reading .bot-book,:root .bot[data-stage="4"] .bot-shine,:root .bot.bookdone .bot-book{animation:none!important}}
 :root .bot[data-armor=phantom] .acc-crown,:root .bot[data-armor=eclipse] .acc-crown{display:none!important}
 .hero .hud-stage:has(.bot[data-armor=phantom]),.hero .hud-stage:has(.bot[data-armor=eclipse]){height:206px;place-items:end center}
-/* ---------- Pastel skin: periwinkle hero, white pills, black chips ---------- */
-html[data-skin=pastel]{--bg:#eceef4;--panel:#fff;--panel2:#f3f4f8;--line:rgba(30,40,80,.07);--line2:rgba(30,40,80,.1);
-  --acc:#4c6fe6;--acc-soft:rgba(76,111,230,.14);--peri:#9fb5f8;--peri2:#8aa3f2;--pink:#eaa6f4;--orange:#f39a3c;--lilac:#cfc8fa;--ink:#111114;
-  --text:#111114;--text2:#4f5363;--text3:#868a99;--muted:#4f5363}
-html[data-skin=pastel] body{background:var(--bg)}
-
-/* cards */
-html[data-skin=pastel] .panel,html[data-skin=pastel] .task,html[data-skin=pastel] .recapcard,html[data-skin=pastel] .stat,
-html[data-skin=pastel] .card-plan,html[data-skin=pastel] .fric,html[data-skin=pastel] .tabs,html[data-skin=pastel] .capbar,
-html[data-skin=pastel] .samplebar,html[data-skin=pastel] .modal{background:#fff;border-color:transparent;border-radius:26px;box-shadow:0 8px 24px rgba(60,72,130,.07)}
-html[data-skin=pastel] .task{border-radius:22px}
-html[data-skin=pastel] .task.done{background:#f6f7fb}
-
-/* hero: periwinkle card with doodles */
-html[data-skin=pastel] .hero.hud{position:relative;background:var(--peri);border:0;border-radius:32px;box-shadow:0 14px 34px rgba(110,135,230,.28);overflow:hidden}
-html[data-skin=pastel] .hero.hud>*:not(.pst-doodle):not(.pst-ring){position:relative;z-index:1}
-html[data-skin=pastel] .hero.hud .eyebrow,html[data-skin=pastel] .hero.hud .subrow,html[data-skin=pastel] .hero.hud small{color:#1d2140}
-html[data-skin=pastel] .hero .hud-stage svg circle,html[data-skin=pastel] .hero .hud-stage svg path{stroke:rgba(255,255,255,.55)}
-html[data-skin=pastel] .hero .progress{background:rgba(255,255,255,.5)}
-html[data-skin=pastel] .hero .progress i{background:var(--ink)}
-html[data-skin=pastel] .hud-say{background:rgba(255,255,255,.92)!important;color:#1d2140!important;border-color:transparent!important;border-radius:999px!important;box-shadow:0 4px 14px rgba(40,60,140,.15)}
-html[data-skin=pastel] .hud-say *{color:#1d2140!important}
-.pst-doodle{position:absolute;inset:0;z-index:0!important;pointer-events:none;display:none}
-html[data-skin=pastel] .pst-doodle{display:block}
-.pst-doodle svg{position:absolute;height:auto;opacity:.85}.pst-doodle .dr{right:3%;top:30%;width:27%}.pst-doodle .dl{left:4%;top:24%;width:25%}
-.pst-doodle i{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;opacity:.55}
-
-/* progress ring badge */
-.pst-ring{display:none}
-html[data-skin=pastel] .pst-ring{display:grid;place-items:center;position:absolute!important;top:14px;right:14px;width:58px;height:58px;z-index:2!important}
-.pst-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
-.pst-ring circle{fill:none;stroke-width:3.2;stroke-linecap:round}
-.pst-ring .tr{stroke:rgba(17,17,20,.12)}
-.pst-ring .fg{stroke:var(--ink);transition:stroke-dashoffset .6s cubic-bezier(.3,.8,.3,1)}
-.pst-ring b{font:600 15px/1 var(--font-ui);color:var(--ink);letter-spacing:-.3px}
-html[data-skin=pastel] .card-plan .pst-ring{top:16px;right:16px}
-
-/* coloured feature cards */
-html[data-skin=pastel] .card-plan.nowcard{background:var(--orange);box-shadow:0 14px 30px rgba(243,154,60,.28)}
-html[data-skin=pastel] .card-plan:not(.nowcard){background:var(--pink);box-shadow:0 14px 30px rgba(220,140,240,.25)}
-html[data-skin=pastel] .card-plan,html[data-skin=pastel] .card-plan *{color:var(--ink)}
-html[data-skin=pastel] .card-plan .eyebrow,html[data-skin=pastel] .card-plan .mono,html[data-skin=pastel] .card-plan p,html[data-skin=pastel] .card-plan li{color:rgba(17,17,20,.72)!important}
-html[data-skin=pastel] .card-plan .nchip{background:rgba(255,255,255,.55);border-color:transparent;border-radius:999px}
-html[data-skin=pastel] .card-plan .nchip.on{background:var(--ink);color:#fff}
-html[data-skin=pastel] .card-plan .primary,html[data-skin=pastel] .card-plan .primary *{color:#fff!important}
-html[data-skin=pastel] .card-plan .secondary{background:rgba(255,255,255,.6)}
-html[data-skin=pastel] .card-plan .nowwhy li::before,html[data-skin=pastel] .card-plan .nowwhy li:before{color:var(--ink)!important}
-
-/* buttons and chips */
-html[data-skin=pastel] button.primary{background:var(--ink);color:#fff;border-radius:999px}
-html[data-skin=pastel] button.secondary,html[data-skin=pastel] button.danger{background:#fff;border-color:rgba(30,40,80,.1);border-radius:999px}
-html[data-skin=pastel] .chip,html[data-skin=pastel] .seg button,html[data-skin=pastel] .fsound button{border-radius:999px;border-color:transparent;background:#fff;box-shadow:0 2px 8px rgba(60,72,130,.06)}
-html[data-skin=pastel] .chip.active,html[data-skin=pastel] .seg button.active,html[data-skin=pastel] .fsound button.on{background:var(--ink)!important;color:#fff!important;border-color:var(--ink)!important}
-html[data-skin=pastel] .chip.active *,html[data-skin=pastel] .seg button.active *{color:#fff!important}
-html[data-skin=pastel] .textbtn{color:var(--acc)}
-html[data-skin=pastel] .check{border-color:rgba(30,40,80,.18)}
-html[data-skin=pastel] .task.done .check,html[data-skin=pastel] .check.on{background:var(--peri2);border-color:var(--peri2)}
-html[data-skin=pastel] .progress i,html[data-skin=pastel] .sk-bar i{background:var(--peri2)}
-
-/* tags: brighter pastel blocks */
-html[data-skin=pastel] .tag{border-radius:999px;color:var(--ink)!important}
-html[data-skin=pastel] .tag.work{background:#dcd6fd}html[data-skin=pastel] .tag.job{background:#d3defd}
-html[data-skin=pastel] .tag.learn{background:#f6d6fb}html[data-skin=pastel] .tag.reading{background:#fde0c4}
-html[data-skin=pastel] .tag.health{background:#d2f3df}html[data-skin=pastel] .tag.money{background:#e2f5cf}
-html[data-skin=pastel] .tag.personal{background:#d6eef6}
-
-/* planner week strip: one white pill, round days, orange selected */
-html[data-skin=pastel] .weekstrip{background:#fff;border-radius:28px;padding:8px 6px;box-shadow:0 8px 24px rgba(60,72,130,.07)}
-html[data-skin=pastel] .weekstrip .day{background:transparent;border:0;box-shadow:none}
-html[data-skin=pastel] .weekstrip .day b{display:grid;place-items:center;width:34px;height:34px;margin:2px auto 0;border-radius:50%;background:var(--ink);color:#fff}
-html[data-skin=pastel] .weekstrip .day.past b{background:#e7e9f1;color:var(--text2)}
-html[data-skin=pastel] .weekstrip .day.today b{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
-html[data-skin=pastel] .weekstrip .day.active b,html[data-skin=pastel] .weekstrip .day.sel b,html[data-skin=pastel] .weekstrip .day[aria-pressed=true] b{background:var(--orange);color:#fff;box-shadow:none}
-html[data-skin=pastel] .weekstrip .day i{background:var(--orange)}
-
-/* focus: the timer card becomes the blue "assistant" card */
-html[data-skin=pastel] #focus>.panel:has(#focusBot){background:var(--peri);box-shadow:0 14px 34px rgba(110,135,230,.28)}
-html[data-skin=pastel] #focus>.panel:has(#focusBot) *:not(button):not(button *){color:#1d2140}
-html[data-skin=pastel] #focus>.panel:has(#focusBot) .chip{background:rgba(255,255,255,.6);box-shadow:none}
-html[data-skin=pastel] #focus>.panel:has(#focusBot) .chip.active{background:var(--ink)!important}
-html[data-skin=pastel] #focus>.panel:has(#focusBot) select{background:rgba(255,255,255,.7);border-color:transparent;border-radius:999px}
-
-/* bottom nav: white floating bar, periwinkle active with dot */
-html[data-skin=pastel] .bottomnav{background:rgba(255,255,255,.94);border:0;border-radius:30px 30px 0 0;box-shadow:0 -8px 30px rgba(60,72,130,.1)}
-html[data-skin=pastel] .navitem{color:#a2a6b5}
-html[data-skin=pastel] .navitem.active{color:var(--acc)}
-html[data-skin=pastel] .navitem.active svg{fill:var(--peri);stroke:var(--acc)}
-html[data-skin=pastel] .navitem{position:relative}
-html[data-skin=pastel] .navitem.active::after{content:'';position:absolute;left:50%;bottom:-6px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--acc)}
-
-/* round icon buttons, inputs */
-html[data-skin=pastel] .iconbtn{background:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(60,72,130,.08)}
-html[data-skin=pastel] select,html[data-skin=pastel] input[type=text],html[data-skin=pastel] textarea{border-radius:16px}
-@media (prefers-reduced-motion:reduce){.pst-ring .fg{transition:none}}
-html[data-skin=pastel] .hero .hud-stage>svg{opacity:0}
-html[data-skin=pastel] .tabs button{border-radius:999px;border-color:transparent;background:transparent}
-html[data-skin=pastel] .tabs button.active{background:var(--ink)!important;color:#fff!important;border-color:var(--ink)!important}
-</style><script>(function(){var t;try{t=JSON.parse(localStorage.getItem('focusflow_prefs')||'{}').theme}catch(e){}var p=t!=='dark'&&t!=='light';t=t==='dark'?'dark':'light';document.getElementById(t==='dark'?'ffLight':'ffDark').media='not all';document.documentElement.dataset.theme=t;if(p)document.documentElement.dataset.skin='pastel';var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#101012':p?'#eceef4':'#f6f4f1'})()</script></head>
+</style><script>(function(){var t;try{t=JSON.parse(localStorage.getItem('focusflow_prefs')||'{}').theme}catch(e){}t=t==='dark'?'dark':'light';document.getElementById(t==='dark'?'ffLight':'ffDark').media='not all';document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#101012':'#f6f4f1'})()</script></head>
 <body><main class="app">
 <header class="top"><div class="brand"><div class="logo">F</div><div><b>FocusFlow</b><small>Your personal flow</small></div></div><button class="iconbtn" id="settings" aria-label="Settings and data"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></header>
 
@@ -2094,7 +1997,7 @@ html[data-skin=pastel] .tabs button.active{background:var(--ink)!important;color
 <div class="panel"><h3>Friction check</h3><p>What seems to be getting in the way, based on your own task history.</p><div id="frictionAll"></div></div>
 <div class="panel"><h3>By category</h3><p>Completed out of all tasks in each category</p><div id="catRows"></div></div></section>
 
-<section id="profile" class="view"><h1 class="headline">Settings</h1><div class="panel"><h3>Appearance</h3><div class="seg" id="themeSeg"><button type="button" data-theme="pastel">Pastel</button><button type="button" data-theme="light">Light</button><button type="button" data-theme="dark">Dark</button></div><label class="checkline" style="margin-top:14px"><input type="checkbox" id="prefTilt"><span><b>Flo follows the phone's tilt</b><br><small style="color:var(--muted)">Looks around as you tilt your phone. Uses the motion sensor on this device only.</small></span></label></div><div class="panel langpanel" translate="no"><h3>ภาษา · Language</h3><div class="seg" id="langSeg"><button type="button" data-lang="th">ไทย</button><button type="button" data-lang="en">English</button></div></div><div class="panel"><h3>Preferences</h3><div class="field"><label for="displayName">Your name</label><input id="displayName" placeholder="What should Flo call you?"></div><button class="primary" id="saveName">Save preferences</button></div><div class="panel"><h3>Flo's personality</h3><p>Changes how Flo talks, how much it reacts, and how it moves.</p><div class="seg" id="personaSeg" style="margin-top:12px"><button type="button" data-persona="calm">Calm<small>Few words</small></button><button type="button" data-persona="analytical">Analytical<small>Numbers first</small></button><button type="button" data-persona="friendly">Friendly<small>Warm, cheers you on</small></button></div><p class="tl-sum" id="personaPreview"></p></div><div class="panel"><h3>🛡 Data vault</h3><p>Everything FocusFlow knows about you lives in this browser. Here's all of it, and you decide what stays.</p><div class="vsum" id="vaultSum"></div><div id="vaultRows"></div>
+<section id="profile" class="view"><h1 class="headline">Settings</h1><div class="panel"><h3>Appearance</h3><div class="seg" id="themeSeg"><button type="button" data-theme="light">Light</button><button type="button" data-theme="dark">Dark</button></div><label class="checkline" style="margin-top:14px"><input type="checkbox" id="prefTilt"><span><b>Flo follows the phone's tilt</b><br><small style="color:var(--muted)">Looks around as you tilt your phone. Uses the motion sensor on this device only.</small></span></label></div><div class="panel langpanel" translate="no"><h3>ภาษา · Language</h3><div class="seg" id="langSeg"><button type="button" data-lang="th">ไทย</button><button type="button" data-lang="en">English</button></div></div><div class="panel"><h3>Preferences</h3><div class="field"><label for="displayName">Your name</label><input id="displayName" placeholder="What should Flo call you?"></div><button class="primary" id="saveName">Save preferences</button></div><div class="panel"><h3>Flo's personality</h3><p>Changes how Flo talks, how much it reacts, and how it moves.</p><div class="seg" id="personaSeg" style="margin-top:12px"><button type="button" data-persona="calm">Calm<small>Few words</small></button><button type="button" data-persona="analytical">Analytical<small>Numbers first</small></button><button type="button" data-persona="friendly">Friendly<small>Warm, cheers you on</small></button></div><p class="tl-sum" id="personaPreview"></p></div><div class="panel"><h3>🛡 Data vault</h3><p>Everything FocusFlow knows about you lives in this browser. Here's all of it, and you decide what stays.</p><div class="vsum" id="vaultSum"></div><div id="vaultRows"></div>
 <div style="margin-top:15px;display:flex;gap:8px;flex-wrap:wrap"><button class="primary" id="exportBtn">Export backup</button><button class="secondary" id="importBtn">Import backup</button><input id="importFile" type="file" accept="application/json" hidden></div></div>
 <div class="panel"><h3>What Flo may use</h3><label class="checkline"><input type="checkbox" id="prefAsk"><span><b style="color:var(--cdfe8ff)">Ask how long tasks took</b><br><small style="color:var(--muted)">One optional tap after you finish a task. Helps your digital twin learn.</small></span></label><label class="checkline"><input type="checkbox" id="prefTwin"><span><b style="color:var(--cdfe8ff)">Use my history in suggestions</b><br><small style="color:var(--muted)">Lets Plan my day and Right now use your real pace and best times. Off means Flo uses only your estimates.</small></span></label><label class="checkline"><input type="checkbox" id="prefAdapt"><span><b style="color:var(--cdfe8ff)">Adapt Home to the time and my habits</b><br><small style="color:var(--muted)">Reorders Home for morning, day, evening and night, and moves the cards you tap most closer to the top.</small></span></label></div>
 <div class="panel"><h3>Delete everything</h3><p>Removes every task, goal, plan, note and learned pattern from this device. Export a backup first if you might want it back.</p><div class="rowbtns"><button class="danger" id="wipeBtn">Delete all my data</button></div><div id="wipeBox" hidden style="margin-top:12px"><div class="field"><label for="wipeInput">Type DELETE to confirm</label><input id="wipeInput" autocomplete="off"></div><div class="rowbtns"><button class="danger" id="wipeGo">Delete permanently</button><button class="secondary" id="wipeCancel">Cancel</button></div></div></div>
@@ -3047,10 +2950,11 @@ var P10=true;
 
 /* ---------- language switch ---------- */
 $$('#langSeg [data-lang]').forEach(b=>{b.classList.toggle('active',b.dataset.lang===LANG);b.onclick=()=>{if(b.dataset.lang===LANG)return;prefs.lang=b.dataset.lang;savePrefs();location.reload()}});
-/* ---------- appearance: pastel (default), light or dark ---------- */
-function setTheme(t){t=t==='dark'||t==='light'?t:'pastel';const d=t==='dark';document.getElementById('ffLight').media=d?'not all':'';document.getElementById('ffDark').media=d?'':'not all';document.documentElement.dataset.theme=d?'dark':'light';if(t==='pastel')document.documentElement.dataset.skin='pastel';else delete document.documentElement.dataset.skin;const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#101012':t==='pastel'?'#eceef4':'#f6f4f1';$$('#themeSeg [data-theme]').forEach(x=>x.classList.toggle('active',x.dataset.theme===t))}
+
+/* ---------- appearance: light (default) or dark ---------- */
+function setTheme(t){const d=t==='dark';document.getElementById('ffLight').media=d?'not all':'';document.getElementById('ffDark').media=d?'':'not all';document.documentElement.dataset.theme=d?'dark':'light';const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#101012':'#f6f4f1';$$('#themeSeg [data-theme]').forEach(x=>x.classList.toggle('active',x.dataset.theme===(d?'dark':'light')))}
 $$('#themeSeg [data-theme]').forEach(b=>b.onclick=()=>{prefs.theme=b.dataset.theme;savePrefs();setTheme(prefs.theme)});
-setTheme(prefs.theme);
+setTheme(document.documentElement.dataset.theme);
 
 /* ---------- swipe a task: right = done, left = tomorrow, always undoable ---------- */
 (function(){
@@ -4117,33 +4021,5 @@ try{
 })();
 
 }catch(e){console.warn('FocusFlow: flo3.js failed to start',e)}
-try{/* ---------- pastel skin: hero doodles + done/total ring (only shown in pastel) ---------- */
-(function(){
-const hero=document.querySelector('#home .hero');if(!hero)return;
-const dood=document.createElement('div');dood.className='pst-doodle';dood.setAttribute('aria-hidden','true');
-const S='<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="';
-dood.innerHTML=S+'dr"><circle cx="40" cy="26" r="15"/><path d="M34 41v8h12v-8M36 54h8M40 5V1M24 12l-3-3M56 12l3-3M36 28q4-6 8 0"/>'
- +'<circle cx="70" cy="74" r="11"/><circle cx="70" cy="74" r="4"/><path d="M70 57v-4M70 91v4M53 74h-4M87 74h4M58 62l-3-3M82 86l3 3M58 86l-3 3M82 62l3-3"/>'
- +'<path d="M22 70l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>'
- +S+'dl"><path d="M14 86l52-52M22 94l52-52M14 86l8 8M66 34l8 8M74 42l8-20-20 8"/><path d="M30 70l5 5M42 58l5 5"/>'
- +'<path d="M26 14l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/><path d="M62 82l6 7 12-14"/></svg>'
- +'<i style="left:12%;top:8%"></i><i style="left:30%;top:6%"></i><i style="left:62%;top:9%"></i><i style="left:8%;top:52%"></i><i style="left:88%;top:58%"></i>';
-hero.prepend(dood);
-const ring=document.createElement('div');ring.className='pst-ring';ring.setAttribute('aria-hidden','true');
-const C=2*Math.PI*26;
-ring.innerHTML='<svg viewBox="0 0 58 58"><circle class="tr" cx="29" cy="29" r="26"/><circle class="fg" cx="29" cy="29" r="26" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+C.toFixed(1)+'"/></svg><b>0/0</b>';
-hero.appendChild(ring);
-const fg=ring.querySelector('.fg'),lab=ring.querySelector('b');
-function upd(){
-  const d=parseInt((document.getElementById('doneCount')||{}).textContent,10)||0;
-  const sm=hero.querySelector('.count small');const m=sm&&sm.textContent.match(/(\d+)/);const t=m?parseInt(m[1],10):0;
-  const txt=d+'/'+t;if(lab.textContent!==txt)lab.textContent=txt;
-  fg.setAttribute('stroke-dashoffset',(C*(1-(t?Math.min(1,d/t):0))).toFixed(1));
-}
-upd();
-const cnt=hero.querySelector('.count');if(cnt)new MutationObserver(upd).observe(cnt,{subtree:true,childList:true,characterData:true});
-})();
-
-}catch(e){console.warn('FocusFlow: pastel.js failed to start',e)}
 
 </script><script>if('serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script></body></html>
