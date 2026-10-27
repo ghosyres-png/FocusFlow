@@ -1676,43 +1676,129 @@ html[data-theme=dark] .minflo:before,html[data-theme=dark] .minflo:after{backgro
 .skinsw[data-c=sunny] i{background:linear-gradient(180deg,#fffbe8,#e6c159)}
 .skinsw[data-c=navy] i{background:linear-gradient(180deg,#3d4a7a,#151b3a)}
 @media (prefers-reduced-motion:reduce){.skinprev.skinpop .bot-float{animation:none!important}}
-/* ===== Flo suits: material, eye colour and one head detail, changed together ===== */
-.bot .acc-suit{display:none}
-:root .bot[data-suit] .acc-suit{display:block;z-index:5;transform:translateZ(1em)}
-.bot .acc-suit:before,.bot .acc-suit:after{content:'';position:absolute}
-/* stealth: matte black, red optics, a thin sensor fin */
-:root .bot[data-suit=stealth]{--eye:#ff5a52;--glow:#ff2a1f;--cap-hi:#3a3b42;--cap-lo:#0b0b0e;--orb-hi:#2e2f35;--orb-lo:#07070a;--drop:#000b}
-:root .bot[data-suit=stealth] .bot-head{background:linear-gradient(180deg,#2a2b31 0%,#17181c 55%,#0c0c0f 100%);box-shadow:inset 0 .1em .12em #ffffff1a,inset 0 -.7em 1.1em #0007,0 1em 1.8em var(--drop)}
-:root .bot[data-suit=stealth] .bot-head:before{background:linear-gradient(90deg,#3a0f0e,#ff4a40 50%,#3a0f0e);box-shadow:0 0 .35em #ff2a1f88;height:.22em}
-:root .bot[data-suit=stealth] .acc-suit{left:50%;top:-1.05em;width:1em;height:1.35em;margin-left:-.5em;clip-path:polygon(30% 0,70% 0,100% 100%,0 100%);background:linear-gradient(90deg,#0c0c0f,#2c2d33 50%,#0c0c0f)}
-/* titanium: brushed metal, chrome ear rims */
-:root .bot[data-suit=titanium]{--cap-hi:#f4f6f9;--cap-lo:#6c7380;--orb-hi:#eef1f5;--orb-lo:#6f7682}
-:root .bot[data-suit=titanium] .bot-head{background:repeating-linear-gradient(90deg,#ffffff0d 0 .07em,transparent .07em .19em),radial-gradient(70% 55% at 30% 14%,#ffffff55,transparent 62%),linear-gradient(180deg,#d6dae1 0%,#9aa1ad 55%,#666d79 100%)}
-:root .bot[data-suit=titanium] .bot-ear{box-shadow:inset 0 0 0 .2em #e9edf2,inset 0 0 0 .32em #7a818c,0 .25em .5em #0004}
-/* mecha: white armour, orange stripe and a unit number */
-:root .bot[data-suit=mecha]{--cap-hi:#ffffff;--cap-lo:#b9b7b1;--orb-hi:#ffffff;--orb-lo:#c7c4bd}
-:root .bot[data-suit=mecha] .bot-head{background:radial-gradient(70% 55% at 30% 14%,#fff,transparent 62%),linear-gradient(180deg,#fbfbf9,#e6e4df 55%,#c9c6bf)}
-:root .bot[data-suit=mecha] .bot-head:before{background:#ff7a1a;box-shadow:none}
-:root .bot[data-suit=mecha] .acc-suit{left:.35em;top:1.6em;width:.42em;height:4.6em;border-radius:.2em;background:linear-gradient(180deg,#ff8a2a,#e85d0c)}
-:root .bot[data-suit=mecha] .acc-suit:after{content:'07';left:7.6em;top:6.75em;font:800 .78em/1 ui-monospace,Menlo,monospace;color:#2a2d36;letter-spacing:-.02em}
-:root .bot[data-suit=mecha] .bot-ear.l,:root .bot[data-suit=mecha] .bot-ear.r{background:radial-gradient(circle at 36% 30%,#fff,#bdbab3 78%)}
-:root .bot[data-suit=mecha] .bot-ear:after{background:#ff7a1a;box-shadow:0 0 .3em #ff7a1a88}
-/* astronaut: matte white, gold visor, status lights */
-:root .bot[data-suit=astro]{--eye:#fff4d6;--glow:#ffb547;--cap-hi:#fff;--cap-lo:#bcbab4;--orb-hi:#fff;--orb-lo:#cfccc5}
-:root .bot[data-suit=astro] .bot-head{background:radial-gradient(70% 55% at 30% 14%,#fff,transparent 62%),linear-gradient(180deg,#fafaf8,#e9e7e2 55%,#cfccc5)}
-:root .bot[data-suit=astro] .bot-visor{background:radial-gradient(60% 45% at 30% 22%,#fff3c4aa,transparent 60%),linear-gradient(160deg,#c9973a 0%,#6b4a14 45%,#2a1a05 100%)}
-:root .bot[data-suit=astro] .bot-ear.l:after{background:#ff4d4d;box-shadow:0 0 .35em #ff4d4d}
-:root .bot[data-suit=astro] .bot-ear.r:after{background:#3dff8a;box-shadow:0 0 .35em #3dff8a}
-/* neon runner: graphite, magenta optics, one lit edge */
-:root .bot[data-suit=neon]{--eye:#ff7ae0;--glow:#b34dff;--cap-hi:#4a4e5c;--cap-lo:#12131a;--orb-hi:#3a3e4c;--orb-lo:#0e0f14}
-:root .bot[data-suit=neon] .bot-head{background:linear-gradient(180deg,#2c2f3a,#1a1c24 55%,#0f1015)}
-:root .bot[data-suit=neon] .acc-suit{inset:-.08em;border-radius:3.3em 3.3em 2.9em 2.9em/3.1em 3.1em 2.7em 2.7em;border:.14em solid transparent;border-top-color:#ff7ae0;border-left-color:#b34dff66;border-right-color:#ff7ae066;filter:drop-shadow(0 0 .25em #c04dffaa);pointer-events:none}
-:root .bot[data-suit=neon] .bot-ear:after{background:#ff7ae0;box-shadow:0 0 .35em #b34dff}
-/* carbon: woven fibre, terminal-green optics */
-:root .bot[data-suit=carbon]{--eye:#6dffa8;--glow:#18d06a;--cap-hi:#3a3d44;--cap-lo:#0d0e11;--orb-hi:#33363d;--orb-lo:#0b0c0f}
-:root .bot[data-suit=carbon] .bot-head{background:radial-gradient(70% 55% at 30% 14%,#ffffff1f,transparent 62%),linear-gradient(180deg,transparent,#0008),repeating-conic-gradient(#1c1d22 0 25%,#2a2c33 0 50%) 0 0/.55em .55em}
-:root .bot[data-suit=carbon] .bot-ear:after{background:#6dffa8;box-shadow:0 0 .35em #18d06a}
-
+/* ===== Flo parts: armor (shape + material + head details), eyes, core =====
+   Every suit is one armor + one eye set + one core with the same name; parts can be mixed. */
+.bot .acc-sa,.bot .acc-sb,.bot .acc-cr{display:none}
+:root .bot[data-armor] .acc-sa,:root .bot[data-armor] .acc-sb{display:block;z-index:5;transform:translateZ(1em)}
+:root .bot[data-core] .acc-cr{display:block}
+.bot .acc-sa:before,.bot .acc-sa:after,.bot .acc-sb:before,.bot .acc-sb:after,.bot .acc-cr:before,.bot .acc-cr:after{content:'';position:absolute}
+/* eyes keep their part shape only in calm states; happy, sleep, thinking and focus stay shared so Flo's face still reads */
+/* ---------- STEALTH ---------- */
+:root .bot[data-armor=stealth]{--cap-hi:#34353c;--cap-lo:#0b0b0e;--drop:#000b}
+:root .bot[data-armor=stealth] .bot-head{border-radius:1.7em 1.7em 2.9em 2.9em/1.6em 1.6em 2.6em 2.6em;
+  background:linear-gradient(90deg,transparent 26.6%,#000c 26.6% 27.2%,transparent 27.2% 72.8%,#000c 72.8% 73.4%,transparent 73.4%),linear-gradient(180deg,#2b2c32 0%,#17181c 55%,#0b0b0e 100%);
+  box-shadow:inset 0 .1em .12em #ffffff1c,inset 0 -.7em 1.1em #0008,0 1em 1.8em var(--drop)}
+:root .bot[data-armor=stealth] .bot-head:before{background:linear-gradient(90deg,#3a0f0e,#ff4a40 50%,#3a0f0e);box-shadow:0 0 .35em #ff2a1f88;height:.2em;width:3.4em;margin-left:-1.7em}
+:root .bot[data-armor=stealth] .bot-visor{left:1.3em;right:1.3em;top:1.7em;height:4.3em;border-radius:1em 1em 1.8em 1.8em/1em 1em 1.6em 1.6em}
+:root .bot[data-armor=stealth] .bot-ear{width:1.9em;height:3em;top:2.4em;border-radius:.3em;clip-path:polygon(25% 0,100% 0,100% 100%,25% 100%,0 75%,0 25%)}
+:root .bot[data-armor=stealth] .bot-ear.r{clip-path:polygon(0 0,75% 0,100% 25%,100% 75%,75% 100%,0 100%)}
+:root .bot[data-armor=stealth] .bot-ear:after{width:.18em;height:1.6em;margin:-.8em 0 0 -.09em;border-radius:.1em;background:#ff4a40;box-shadow:0 0 .3em #ff2a1f}
+:root .bot[data-armor=stealth] .acc-sa{left:50%;top:-1.25em;width:1.1em;height:1.5em;margin-left:-.55em;clip-path:polygon(35% 0,70% 0,100% 100%,0 100%);background:linear-gradient(90deg,#0c0c0f,#2c2d33 50%,#0c0c0f)}
+:root .bot[data-armor=stealth] .acc-sb{left:50%;top:6.35em;width:3.6em;height:1.2em;margin-left:-1.8em;clip-path:polygon(0 0,100% 0,62% 100%,38% 100%);background:linear-gradient(180deg,#26272d,#0c0c0f)}
+/* ---------- TITANIUM ---------- */
+:root .bot[data-armor=titanium]{--cap-hi:#f4f6f9;--cap-lo:#6c7380}
+:root .bot[data-armor=titanium] .bot-head{width:11.3em;margin-left:-5.65em;height:7.7em;top:2.3em;border-radius:3.9em/3.5em;
+  background:repeating-linear-gradient(90deg,#ffffff0d 0 .07em,transparent .07em .19em),radial-gradient(70% 55% at 30% 14%,#ffffff55,transparent 62%),linear-gradient(180deg,#d9dde3 0%,#9ca3ae 55%,#656c78 100%)}
+:root .bot[data-armor=titanium] .bot-visor{left:1.25em;right:1.25em;height:4.7em;border-radius:2.4em/2.3em}
+:root .bot[data-armor=titanium] .bot-ear{width:2.7em;height:2.7em;top:2.5em;background:radial-gradient(circle,#1b1e24 0 .42em,#6c7380 .46em .58em,#eef1f5 .62em .95em,#8b919c 1.05em 1.2em,#596070 1.25em)}
+:root .bot[data-armor=titanium] .bot-ear.l{left:-1.15em}:root .bot[data-armor=titanium] .bot-ear.r{right:-1.15em}
+:root .bot[data-armor=titanium] .bot-ear:after{width:.34em;height:.34em;margin:-.17em 0 0 -.17em}
+:root .bot[data-armor=titanium] .acc-sa{inset:0;transform:none;background:radial-gradient(circle .17em at 1.5em 1.2em,#5b616c 90%,transparent),radial-gradient(circle .17em at calc(100% - 1.5em) 1.2em,#5b616c 90%,transparent),radial-gradient(circle .17em at 1.5em calc(100% - 1.2em),#5b616c 90%,transparent),radial-gradient(circle .17em at calc(100% - 1.5em) calc(100% - 1.2em),#5b616c 90%,transparent)}
+:root .bot[data-armor=titanium] .acc-sb{left:50%;top:7.55em;width:.8em;height:1.55em;margin-left:-.4em;border-radius:.2em;transform:translateZ(-.4em);
+  background:linear-gradient(180deg,transparent .55em,#596070 .55em .72em,transparent .72em),linear-gradient(90deg,#6c7380,#eef1f5 45%,#7a818c)}
+/* ---------- MECHA ---------- */
+:root .bot[data-armor=mecha]{--cap-hi:#ffffff;--cap-lo:#b9b7b1}
+:root .bot[data-armor=mecha] .bot-head{border-radius:2em 2em 2.4em 2.4em/1.9em 1.9em 2.3em 2.3em;
+  background:linear-gradient(180deg,transparent 80%,#0000001a 80% 80.8%,transparent 80.8%),radial-gradient(70% 55% at 30% 14%,#fff,transparent 62%),linear-gradient(180deg,#fbfbf9,#e6e4df 55%,#c9c6bf)}
+:root .bot[data-armor=mecha] .bot-head:before{background:#d8463a;width:1.1em;margin-left:-.55em;height:.55em;top:.3em;border-radius:.15em;box-shadow:inset 0 .12em 0 #ff8a7a}
+:root .bot[data-armor=mecha] .bot-visor{left:1.5em;right:1.5em;top:1.55em;height:4.4em;border-radius:1.3em 1.3em 1.7em 1.7em}
+:root .bot[data-armor=mecha] .bot-ear{width:2.1em;height:4.4em;top:1.6em;border-radius:.55em;
+  background:linear-gradient(180deg,transparent 1.2em,#ff7a1a 1.2em 1.6em,transparent 1.6em),repeating-linear-gradient(180deg,transparent 0 2.3em,#0000002a 2.3em 2.42em,transparent 2.42em 2.7em),linear-gradient(90deg,#f6f5f2,#cfccc5)}
+:root .bot[data-armor=mecha] .bot-ear.l{left:-1.35em}:root .bot[data-armor=mecha] .bot-ear.r{right:-1.35em;background:linear-gradient(180deg,transparent 1.2em,#ff7a1a 1.2em 1.6em,transparent 1.6em),repeating-linear-gradient(180deg,transparent 0 2.3em,#0000002a 2.3em 2.42em,transparent 2.42em 2.7em),linear-gradient(270deg,#f6f5f2,#cfccc5)}
+:root .bot[data-armor=mecha] .bot-ear:after{top:auto;bottom:.5em;width:1em;height:.26em;margin:0 0 0 -.5em;border-radius:.1em;background:#2a2d36;box-shadow:0 -.4em 0 #2a2d36;opacity:.55}
+:root .bot[data-armor=mecha] .acc-sa{left:50%;top:-2.05em;width:6.4em;height:2.6em;margin-left:-3.2em}
+:root .bot[data-armor=mecha] .acc-sa:before,:root .bot[data-armor=mecha] .acc-sa:after{bottom:.35em;width:3.5em;height:.62em;background:linear-gradient(180deg,#ffd76a,#e8a313);box-shadow:0 .1em .15em #0003}
+:root .bot[data-armor=mecha] .acc-sa:before{left:-.1em;transform-origin:100% 100%;rotate:32deg;clip-path:polygon(0 30%,100% 0,100% 100%,0 70%)}
+:root .bot[data-armor=mecha] .acc-sa:after{right:-.1em;transform-origin:0 100%;rotate:-32deg;clip-path:polygon(0 0,100% 30%,100% 70%,0 100%)}
+:root .bot[data-armor=mecha] .acc-sb{left:7.55em;top:6.35em;width:1.6em;height:1em}
+:root .bot[data-armor=mecha] .acc-sb:before{content:'07';left:0;top:0;font:800 .8em/1 ui-monospace,Menlo,monospace;color:#2a2d36;letter-spacing:-.02em}
+/* ---------- ASTRONAUT ---------- */
+:root .bot[data-armor=astro]{--cap-hi:#fff;--cap-lo:#bcbab4}
+:root .bot[data-armor=astro] .bot-head{top:1.7em;height:8.6em;border-radius:5.3em 5.3em 3.2em 3.2em/5em 5em 2.9em 2.9em;
+  background:radial-gradient(70% 55% at 30% 14%,#fff,transparent 62%),linear-gradient(180deg,#fafaf8,#e9e7e2 55%,#cfccc5)}
+:root .bot[data-armor=astro] .bot-head:before{display:none}
+:root .bot[data-armor=astro] .bot-visor{left:.95em;right:.95em;top:1.35em;height:5.6em;border-radius:4.2em 4.2em 2.4em 2.4em/3.8em 3.8em 2.2em 2.2em;
+  background:radial-gradient(55% 40% at 30% 20%,#fff6d0bb,transparent 60%),linear-gradient(160deg,#d3a24a 0%,#7a5418 45%,#2a1a05 100%);box-shadow:inset 0 .22em .45em #0008,0 0 0 .2em #b9b6ae,0 0 0 .32em #8e8b84}
+:root .bot[data-armor=astro] .bot-ear{width:1.7em;height:3.8em;top:2.6em;border-radius:.85em;background:linear-gradient(180deg,transparent 1.1em,#c9c6bf 1.1em 1.3em,transparent 1.3em 2.5em,#c9c6bf 2.5em 2.7em,transparent 2.7em),linear-gradient(90deg,#fff,#cfccc5)}
+:root .bot[data-armor=astro] .bot-ear.l{left:-1.15em}:root .bot[data-armor=astro] .bot-ear.r{right:-1.15em}
+:root .bot[data-armor=astro] .bot-ear:after{top:.45em;width:.42em;height:.42em;margin:0 0 0 -.21em}
+:root .bot[data-armor=astro] .bot-ear.l:after{background:#ff4d4d;box-shadow:0 0 .35em #ff4d4d}
+:root .bot[data-armor=astro] .bot-ear.r:after{background:#3dff8a;box-shadow:0 0 .35em #3dff8a}
+:root .bot[data-armor=astro] .acc-sa{left:73%;top:-1.25em;width:.18em;height:1.8em;background:linear-gradient(90deg,#77746d,#d9d6cf,#77746d);rotate:12deg}
+:root .bot[data-armor=astro] .acc-sa:after{left:-.21em;top:-.5em;width:.6em;height:.6em;border-radius:50%;background:#fff;box-shadow:0 0 .4em #fff8}
+:root .bot[data-armor=astro] .acc-sb{left:50%;top:7.95em;width:7.6em;height:1.5em;margin-left:-3.8em;border-radius:50%;transform:translateZ(-.3em);
+  background:linear-gradient(180deg,#e9e7e2,#a9a69f);box-shadow:inset 0 .25em .2em #fff,0 .3em .5em #0003}
+/* ---------- NEON RUNNER ---------- */
+:root .bot[data-armor=neon]{--cap-hi:#4a4e5c;--cap-lo:#12131a}
+:root .bot[data-armor=neon] .bot-head{width:11.4em;margin-left:-5.7em;top:2.7em;height:7em;border-radius:3.6em 3.6em 2em 2em/3.1em 3.1em 1.8em 1.8em;
+  background:linear-gradient(180deg,#2d303b,#1a1c24 55%,#0e0f14)}
+:root .bot[data-armor=neon] .bot-head:before{display:none}
+:root .bot[data-armor=neon] .bot-visor{left:.55em;right:.55em;top:1.45em;height:3.7em;border-radius:1.9em 1.9em 1.4em 1.4em/1.8em 1.8em 1.4em 1.4em}
+:root .bot[data-armor=neon] .bot-ear{width:1.5em;height:3.3em;top:1.8em;border-radius:0;clip-path:polygon(100% 8%,0 38%,0 62%,100% 92%);background:linear-gradient(90deg,#0e0f14,#2d303b)}
+:root .bot[data-armor=neon] .bot-ear.l{left:-1.15em}
+:root .bot[data-armor=neon] .bot-ear.r{right:-1.15em;clip-path:polygon(0 8%,100% 38%,100% 62%,0 92%);background:linear-gradient(270deg,#0e0f14,#2d303b)}
+:root .bot[data-armor=neon] .bot-ear:after{width:1.3em;height:.12em;margin:-.06em 0 0 -.65em;border-radius:0;background:#ff7ae0;box-shadow:0 0 .3em #b34dff;opacity:1}
+:root .bot[data-armor=neon] .acc-sa{inset:-.08em;transform:none;border-radius:3.7em 3.7em 2.1em 2.1em/3.2em 3.2em 1.9em 1.9em;border:.13em solid transparent;border-top-color:#ff7ae0;border-left-color:#b34dff55;border-right-color:#ff7ae055;filter:drop-shadow(0 0 .25em #c04dffaa)}
+:root .bot[data-armor=neon] .acc-sb{left:1.6em;right:1.6em;top:5.75em;height:.14em;transform:none;overflow:hidden;border-radius:.1em;background:#ff7ae033}
+:root .bot[data-armor=neon] .acc-sb:before{top:0;left:0;width:2.4em;height:100%;background:linear-gradient(90deg,transparent,#ffb3ee,transparent);animation:neonRun 4.2s cubic-bezier(.5,0,.3,1) infinite}
+@keyframes neonRun{0%{transform:translateX(-2.6em)}55%,100%{transform:translateX(9em)}}
+/* ---------- CARBON ---------- */
+:root .bot[data-armor=carbon]{--cap-hi:#3a3d44;--cap-lo:#0d0e11}
+:root .bot[data-armor=carbon] .bot-head{border-radius:2.6em 2.6em 2.2em 2.2em/2.4em 2.4em 2em 2em;
+  background:radial-gradient(70% 55% at 30% 14%,#ffffff1f,transparent 62%),linear-gradient(180deg,transparent,#0008),repeating-conic-gradient(#1c1d22 0 25%,#2a2c33 0 50%) 0 0/.55em .55em}
+:root .bot[data-armor=carbon] .bot-head:before{display:none}
+:root .bot[data-armor=carbon] .bot-ear{width:1.7em;height:3.8em;top:2.15em;border-radius:.45em;background:repeating-linear-gradient(180deg,#08090b 0 .26em,#3a3d44 .26em .5em);box-shadow:inset 0 0 0 .14em #2a2c33,0 .25em .5em #0005}
+:root .bot[data-armor=carbon] .bot-ear.l{left:-1.05em}:root .bot[data-armor=carbon] .bot-ear.r{right:-1.05em}
+:root .bot[data-armor=carbon] .bot-ear:after{display:none}
+:root .bot[data-armor=carbon] .acc-sa{left:50%;top:.32em;width:3.6em;height:.75em;margin-left:-1.8em;border-radius:.2em;background:repeating-linear-gradient(90deg,#060708 0 .32em,#30333a .32em .58em);box-shadow:inset 0 0 0 .08em #3a3d44}
+:root .bot[data-armor=carbon] .acc-sb{left:1.7em;top:6.85em;width:2.4em;height:.32em;background:repeating-linear-gradient(90deg,#6dffa8 0 .3em,transparent .3em .5em);opacity:.6}
+/* ---------- EYES ---------- */
+:root .bot[data-eyes=slit]{--eye:#ff5a52;--glow:#ff2a1f}
+:root .bot[data-eyes=capsule]{--eye:#c9f7ff;--glow:#5fd6ff}
+:root .bot[data-eyes=vee]{--eye:#8dffcf;--glow:#1fd690}
+:root .bot[data-eyes=warm]{--eye:#fff4d6;--glow:#ffb547}
+:root .bot[data-eyes=bar]{--eye:#ff7ae0;--glow:#b34dff}
+:root .bot[data-eyes=pixel]{--eye:#6dffa8;--glow:#18d06a}
+:root .bot[data-eyes]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:1.12em;--eh:1.7em;width:var(--ew);height:var(--eh)}
+:root .bot[data-eyes=slit]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:2em;--eh:.46em;border-radius:.12em;rotate:7deg}
+:root .bot[data-eyes=slit]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye+.bot-eye{rotate:-7deg}
+:root .bot[data-eyes=capsule]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:1.85em;--eh:1em;border-radius:1em}
+:root .bot[data-eyes=vee]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:1.9em;--eh:1.15em;border-radius:.15em;clip-path:polygon(0 0,100% 35%,100% 100%,0 100%)}
+:root .bot[data-eyes=vee]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye+.bot-eye{clip-path:polygon(0 35%,100% 0,100% 100%,0 100%)}
+:root .bot[data-eyes=warm]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:1.3em;--eh:1.3em;border-radius:50%}
+:root .bot[data-eyes=bar]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:2.1em;--eh:.75em;border-radius:.2em;clip-path:polygon(18% 0,100% 0,82% 100%,0 100%)}
+:root .bot[data-eyes=bar]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye+.bot-eye{clip-path:polygon(0 0,82% 0,100% 100%,18% 100%)}
+:root .bot[data-eyes=pixel]:not(.cheer):not(.sleep):not([data-mood=happy]):not([data-mood=thinking]):not([data-mood=focus]) .bot-eye{--ew:1.3em;--eh:1.3em;border-radius:.12em;background:repeating-linear-gradient(180deg,var(--eye) 0 .2em,color-mix(in srgb,var(--eye) 55%,transparent) .2em .27em)}
+:root .bot[data-eyes][data-face] .bot-eye:first-child{scale:1.18}
+/* ---------- CORES ---------- */
+:root .bot[data-core=stealth]{--orb-hi:#2e2f35;--orb-lo:#07070a}
+:root .bot[data-core=stealth] .bot-body:after{width:1.9em;height:.32em;margin:-.16em 0 0 -.95em;border-radius:.1em;background:linear-gradient(90deg,transparent,var(--eye) 20% 80%,transparent)}
+:root .bot[data-core=titanium]{--orb-hi:#eef1f5;--orb-lo:#6f7682}
+:root .bot[data-core=titanium] .acc-cr{position:absolute;left:50%;top:50%;width:6.6em;height:6.6em;margin:-3.3em 0 0 -3.3em;border-radius:50%;border:.14em solid #c9ced8;box-shadow:0 0 .3em #ffffff22,inset 0 0 .2em #0003;transform:rotateX(74deg);pointer-events:none}
+:root .bot[data-core=mecha]{--orb-hi:#ffffff;--orb-lo:#c7c4bd}
+:root .bot[data-core=mecha] .acc-cr{position:absolute;inset:0;border-radius:50%;background:linear-gradient(90deg,transparent 48.5%,#0000002e 48.5% 51.5%,transparent 51.5%),linear-gradient(0deg,transparent 48.5%,#0000002e 48.5% 51.5%,transparent 51.5%);-webkit-mask:radial-gradient(circle,transparent 1.2em,#000 1.25em);mask:radial-gradient(circle,transparent 1.2em,#000 1.25em)}
+:root .bot[data-core=astro]{--orb-hi:#fff;--orb-lo:#cfccc5}
+:root .bot[data-core=astro] .acc-cr{position:absolute;inset:.35em;border-radius:50%;box-shadow:inset 0 0 0 .12em #d3a24a99}
+:root .bot[data-core=neon]{--orb-hi:#3a3e4c;--orb-lo:#0e0f14}
+:root .bot[data-core=neon] .acc-cr{position:absolute;inset:-.06em;border-radius:50%;box-shadow:0 0 0 .08em #ff7ae066,0 0 .4em #b34dff55}
+:root .bot[data-core=carbon]{--orb-hi:#33363d;--orb-lo:#0b0c0f}
+:root .bot[data-core=carbon] .acc-cr{position:absolute;inset:0;border-radius:50%;background:repeating-linear-gradient(180deg,transparent 0 .32em,#00000066 .32em .44em);-webkit-mask:radial-gradient(circle,transparent 1.25em,#000 1.3em);mask:radial-gradient(circle,transparent 1.25em,#000 1.3em)}
+/* accessories that would clip into a crest */
+:root .bot[data-armor=stealth] .acc-crown,:root .bot[data-armor=mecha] .acc-crown,:root .bot[data-armor=astro] .acc-crown{display:none!important}
+@media (prefers-reduced-motion:reduce){:root .bot .acc-sb:before{animation:none!important;opacity:0}}
+/* crests need headroom so the speech bubble does not sit on them */
+.hero .hud-stage:has(.bot[data-armor=mecha]),.hero .hud-stage:has(.bot[data-armor=astro]),.hero .hud-stage:has(.bot[data-armor=stealth]){height:206px;place-items:end center}
+.hero .hud-stage:has(.bot[data-armor]) .bot{margin-bottom:4px}
 .skinsw[data-c=s-std] i{background:linear-gradient(135deg,#f4f2ee 50%,#262b38 50%)}
 .skinsw[data-c=s-stealth] i{background:radial-gradient(circle .2em at 50% 50%,#ff5a52,transparent 4px),linear-gradient(180deg,#2a2b31,#0c0c0f)}
 .skinsw[data-c=s-titanium] i{background:repeating-linear-gradient(90deg,#ffffff18 0 1px,transparent 1px 3px),linear-gradient(180deg,#d6dae1,#666d79)}
@@ -3559,10 +3645,10 @@ html[data-theme=dark] .tag.cat[style]{color:hsl(var(--ch) 75% 78%);background:hs
 (()=>{const SUITS=[['','Standard'],['stealth','Stealth'],['titanium','Titanium'],['mecha','Mecha'],['astro','Astronaut'],['neon','Neon Runner'],['carbon','Carbon']];
   const SHELLS=[['','Default'],['mint','Mint'],['peach','Peach'],['lilac','Lavender'],['sky','Sky'],['sunny','Sunny'],['navy','Midnight']];
   const bots=$$('[data-bot]');
-  bots.forEach(b=>{const h=b.querySelector('.bot-head');if(h&&!h.querySelector('.acc-suit')){const i=document.createElement('i');i.className='acc acc-suit';i.setAttribute('aria-hidden','true');h.appendChild(i)}});
+  bots.forEach(b=>{const h=b.querySelector('.bot-head');const mk=(p,c)=>{if(p&&!p.querySelector('.'+c)){const i=document.createElement('i');i.className='acc '+c;i.setAttribute('aria-hidden','true');p.appendChild(i)}};mk(h,'acc-sa');mk(h,'acc-sb');mk(b.querySelector('.bot-body'),'acc-cr')});
   if(prefs.floHat){delete prefs.floHat;savePrefs()}
   function apply(){const sh=prefs.floSuit?'':(prefs.floShell||'');
-    const su=prefs.floSuit||'';$$('[data-bot],.skinprev').forEach(b=>{if(su)b.dataset.suit=su;else delete b.dataset.suit;if(sh)b.dataset.shell=sh;else delete b.dataset.shell})}
+    const su=prefs.floSuit||'';$$('[data-bot],.skinprev').forEach(b=>{const P={armor:su,eyes:{stealth:'slit',titanium:'capsule',mecha:'vee',astro:'warm',neon:'bar',carbon:'pixel'}[su]||'',core:su};for(const k in P){if(P[k])b.dataset[k]=P[k];else delete b.dataset[k]}if(sh)b.dataset.shell=sh;else delete b.dataset.shell})}
   window.floSkin=apply;apply();
   const anchor=$('#personaSeg')?.closest('.panel');if(!anchor)return;
   anchor.insertAdjacentHTML('afterend',`<div class="panel" id="skinPanel"><h3>Flo's look</h3><p>Pick a suit for Flo. Change it whenever you like.</p>
