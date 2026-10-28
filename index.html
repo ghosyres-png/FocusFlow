@@ -1998,6 +1998,8 @@ html[data-theme=dark] .weekstrip .day i.wflo{background:#e9eaee}
 .weekstrip .day i.wflo.full s{height:2.5px;width:4px;border-radius:3px 3px 0 0;background:transparent;border:1.4px solid #45e5c0;border-bottom:0}
 
 @media (prefers-reduced-motion:reduce){.flofab .ff-visor i{animation:none}.flofab:active{transform:none}}
+/* v17x: past days with something done: small green dot (Flo stays on today) */
+.weekstrip .day i.wpast{display:block;width:6px;height:6px;border-radius:50%;background:#2fbf8f;margin:6px auto 0;opacity:1}
 /* ===== v17r: wardrobe refinements ===== */
 /* bigger preview, less empty space around it */
 .wardmodal .modal{padding-top:14px}
@@ -4265,8 +4267,9 @@ function floStrip(){const strip=document.getElementById('weekstrip');if(!strip)r
   strip.querySelectorAll('[data-wday]').forEach(b=>{const k=b.dataset.wday;if(k>t0)return;
     const planned=tasks.filter(t=>t.date===k),n=tasks.filter(t=>doneOn(t,k)).length;if(!n)return;
     const full=planned.length>0&&planned.every(t=>t.done);const i=b.querySelector('i');if(!i)return;
-    i.className='wflo'+(full?' full':'');i.title=full?tr('All planned tasks done'):tr(n+' done today');
-    i.innerHTML='<s></s><s></s>';b.setAttribute('aria-label',b.textContent.trim()+' · '+i.title)})}
+    /* Flo sits on today only; past days keep a small green dot so they don't read as the current day */
+    if(k<t0){i.className='wpast';i.innerHTML='';i.title=tr(n===1?'1 task done':n+' tasks done')}
+    else{i.className='wflo'+(full?' full':'');i.title=full?tr('All planned tasks done'):tr(n+' done today');i.innerHTML='<s></s><s></s>'}b.setAttribute('aria-label',b.textContent.trim()+' · '+i.title)})}
 const _r=render;render=function(){_r.apply(this,arguments);try{floStrip()}catch(e){}};
 floStrip();
 })();
